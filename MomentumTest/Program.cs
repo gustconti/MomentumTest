@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MomentumTest.Data;
+using MomentumTest.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,5 +28,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+builder.Services.AddDbContext<MomentumTestContext>(options =>
+options.UseSqlite(builder.Configuration.GetConnectionString("MomentumTest")));
 
 app.Run();
