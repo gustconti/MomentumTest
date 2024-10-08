@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\conti\OneDrive\Área de Trabalho\Teste da Momentum\MomentumTest\MomentumTest
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,8 +30,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Components/Reservations/Filters.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcUmVzZXJ2YXRpb25zXEZpbHRlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Components/Reservations/ReservationsTable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcUmVzZXJ2YXRpb25zXFJlc2VydmF0aW9uc1RhYmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Components/Sidebar/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhclxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Components/Sidebar/Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhclxGb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Components/Sidebar/Menu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhclxNZW51LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Components/Sidebar/UserWidget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhclxVc2VyV2lkZ2V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/_Header.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/conti/OneDrive/Área de Trabalho/Teste da Momentum/MomentumTest/MomentumTest/Views/Shared/_ValidationScriptsPartial.cshtml]
