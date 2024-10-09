@@ -1,0 +1,11 @@
+@model UserWidgetDTO
+
+<div class="user-widget">
+    <div class="user-avatar">
+        <img src="@Model.AvatarUrl" alt="User Avatar" />
+    </div>
+    <div class="user-info">
+        <h3 class="user-name">@Model.Name</h3>
+        <p class="user-company">@Model.Company</p>
+    </div>
+</div>
