@@ -1,0 +1,34 @@
+.menu-header {
+    text-transform: uppercase;
+}
+
+nav {
+    background-color: #68805D;
+}
+
+.menu-filter input {
+    background-color: unset;
+    border: unset;
+    color: #fff;
+}
+
+.menu-filter input::placeholder {
+    color: #fff;
+}
+
+.menu-filter input:active, .menu-filter input:focus, .menu-filter input:focus-visible {
+    border: none;
+    box-shadow: none;
+}
+
+.menu-filter:focus-visible {
+    background-color: #00000001;
+}
+
+.menu-item.active {
+    background-color: #5E7653;
+}
+
+.menu-item:hover {
+    background-color: #5E7653;
+}

@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MomentumTest.Data;
-using MomentumTest.Models;
-using System.Collections.Generic;
 
 namespace MomentumTest.Components.Sidebar
 {

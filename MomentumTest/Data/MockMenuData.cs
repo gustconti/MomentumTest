@@ -8,7 +8,7 @@ namespace MomentumTest.Data
             [
                 new () { Text = "Cadastros", SubItems = [
                     new() { Text = "Chalés" },
-                    new() { Text = "Reservas", Controller = "Home", Action = "Index" }
+                    new() { Text = "Reservas", Controller = "Home", Action = "Index", Url = "/" }
                 ]}
             ];
         }

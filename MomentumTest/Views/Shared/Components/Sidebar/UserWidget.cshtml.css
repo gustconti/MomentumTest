@@ -1,0 +1,16 @@
+
+.user-widget {
+    background-color: #68805D;
+}
+
+.user-avatar img {
+    width: 50px;
+}
+
+.user-name {
+    font-weight: 500;
+}
+
+.user-company {
+    font-weight: 300;
+}

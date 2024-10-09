@@ -1,11 +1,11 @@
 @model MomentumTest.Data.UserDTO
 
-<div class="user-widget">
+<div class="user-widget p-2 d-flex gap-2">
     <div class="user-avatar">
         <img src="@Model.AvatarUrl" alt="User Avatar" class="icon"/>
     </div>
-    <div class="user-info">
-        <h3 class="user-name">@Model.Name</h3>
-        <p class="user-company">@Model.Company</p>
+    <div class="user-info d-flex flex-column">
+        <span class="user-name">@Model.Name</span>
+        <span class="user-company">@Model.Company</span>
     </div>
 </div>

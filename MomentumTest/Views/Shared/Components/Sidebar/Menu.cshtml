@@ -1,14 +1,19 @@
 @model List<MomentumTest.Data.MenuItemDTO>
 @using System.Linq
 
-    <nav>
-        <input type="text" name="menuFilter" />
-        <ul>
+<section class="main-menu">
+    <h3 class="menu-header p-4 pb-3">Menu</h3>
+    <nav class="nav-wrapper">
+        <div class="menu-filter p-2 ps-3">
+            <img src="/assets/filter.svg" alt="Filter Icon" class="icon" />
+            <input type="text" class="menu-filter p-2" name="menuFilter" placeholder="Filtrar..." />
+        </div>
+        <ul class="link-list">
             @foreach (var item in Model)
             {
                 <li>
-                    <a class="" asp-controller="@item.Controller" asp-action="@item.Action">
-                        <img src="/assets/gear.svg" alt="Filter Icon" class="icon"/>
+                    <a class="menu-item d-block w-100 p-2 ps-5" href="@item.Url">
+                        <img src="/assets/gear.svg" alt="Filter Icon" class="icon" />
                         @item.Text
                     </a>
                     @if (item.SubItems.Any())
@@ -17,7 +22,9 @@
                             @foreach (var subItem in item.SubItems)
                             {
                                 <li>
-                                    <a class="" asp-controller="@subItem.Controller" asp-action="@subItem.Action">
+                                    <a
+                                        class="menu-item sub-item d-block w-100 p-2 ps-5  @(subItem.Text == "Reservas" ? "active" : "")"
+                                        href="@subItem.Url">
                                         @subItem.Text
                                     </a>
                                 </li>
@@ -28,3 +35,4 @@
             }
         </ul>
     </nav>
+</section>
