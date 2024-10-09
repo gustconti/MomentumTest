@@ -13,6 +13,14 @@ options.UseSqlite(builder.Configuration.GetConnectionString("MomentumTestContext
 
 var app = builder.Build();
 
+// This was used to seed the database pulling data from SeedData.cs
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+
+//     SeedData.Initialize(services);
+// }
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

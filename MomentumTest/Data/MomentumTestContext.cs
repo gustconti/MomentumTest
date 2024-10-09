@@ -10,6 +10,8 @@ namespace MomentumTest.Data
     public class MomentumTestContext(DbContextOptions<MomentumTestContext> options) : DbContext(options)
     {
         public DbSet<MomentumTest.Models.Reservation> Reservation { get; set; } = default!;
+        public DbSet<MomentumTest.Models.Guest> Guest { get; set; } = default!;
+        public DbSet<MomentumTest.Models.Status> Status { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
