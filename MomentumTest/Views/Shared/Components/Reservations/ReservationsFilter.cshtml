@@ -1,3 +1,69 @@
-<div class="filters">
-    <h3>filters</h3>
+@using MomentumTest.Models.ViewModels
+@model ReservationsFilterModelDTO
+
+<form id="reservationFilterForm" method="post" asp-controller="ReservationsFilterViewComponent" asp-action="Filter">
+    <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="text" id="startDate" name="StartDate" class="form-control datepicker" 
+               value="@Model.StartDate?.ToString("dd-MM-yyyy")" />
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="text" id="endDate" name="EndDate" class="form-control datepicker" 
+               value="@Model.EndDate?.ToString("dd-MM-yyyy")" />
+    </div>
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="StatusId" class="form-control">
+            <option value="0">Select Status</option>
+            @foreach (var status in Model.Statuses) // Assuming Model.Statuses is a list of status options
+            {
+                <option value="@status.Id">@status.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="guestName">Guest Name</label>
+        <input type="text" id="guestName" name="GuestName" class="form-control" 
+               placeholder="Enter guest name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<div id="reservationsTableContainer">
+    @await Component.InvokeAsync("ReservationsTable", new { reservations = new List<Reservation>() })
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    
+    <script>
+        $(document).ready(function () {
+            // Initialize datepickers
+            $(".datepicker").datepicker({
+                dateFormat: "yy-mm-dd", // Format for the date input
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true
+            });
+
+            // Handle form submission via AJAX
+            $('#reservationFilterForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Filter", "ReservationsFilterViewComponent")', // Adjust if needed
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#reservationsTableContainer').html(result); // Update the table with the result
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("An error occurred: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+}

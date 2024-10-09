@@ -1,3 +1,50 @@
-<div class="table">
-    <h3>table</h3>
+@using MomentumTest.Models.ViewModels
+@model ReservationsFilterModelDTO
+
+<form id="reservationFilterForm" method="post" asp-controller="Home" asp-action="Filter">
+    <div>
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div>
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div>
+        <label for="status">Status</label>
+        <select id="status" name="StatusId">
+            <option value="0">Select Status</option>
+            @foreach (var status in Model.Statuses) // Make sure to populate statuses in the model
+            {
+                <option value="@status.Id">@status.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="guestName">Guest Name</label>
+        <input type="text" id="guestName" name="GuestName" placeholder="Enter guest name" />
+    </div>
+    <button type="submit">Search</button>
+</form>
+
+<div id="reservationsTableContainer">
+    @await Component.InvokeAsync("ReservationsTable", new { reservations = new List<Reservation>() })
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#reservationFilterForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Filter", "ReservationsFilter")', // Adjust if needed
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#reservationsTableContainer').html(result); // Update table
+                    }
+                });
+            });
+        });
+    </script>
+}
