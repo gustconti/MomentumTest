@@ -1,4 +1,5 @@
-@Model List<MenuItemDTO>
+@model List<MomentumTest.Data.MenuItemDTO>
+@using System.Linq
 
     <nav>
         <input type="text" name="menuFilter" />
@@ -7,7 +8,7 @@
             {
                 <li>
                     <a class="" asp-controller="@item.Controller" asp-action="@item.Action">
-                        <img src="/assets/gear.svg" alt="filter icon" />
+                        <img src="/assets/gear.svg" alt="Filter Icon" class="icon"/>
                         @item.Text
                     </a>
                     @if (item.SubItems.Any())

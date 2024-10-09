@@ -7,8 +7,8 @@ namespace MomentumTest.Data
             return
             [
                 new () { Text = "Cadastros", SubItems = [
-                    new MenuItemDTO { Text = "Chalés" },
-                    new MenuItemDTO { Text = "Reservas", Controller = "Home", Action = "Index" }
+                    new() { Text = "Chalés" },
+                    new() { Text = "Reservas", Controller = "Home", Action = "Index" }
                 ]}
             ];
         }

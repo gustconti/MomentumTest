@@ -10,7 +10,7 @@ namespace MomentumTest.Components.Sidebar
         public IViewComponentResult Invoke()
         {
             var menuItems = MockMenuData.GetMenuItems();
-            return View(menuItems);
+            return View("~/Views/Shared/Components/Sidebar/Menu.cshtml", menuItems);
         }
     }
 }

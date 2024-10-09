@@ -14,7 +14,12 @@
         @await Component.InvokeAsync("Sidebar")
 
         <main role="main" class="pb-3">
-            @RenderBody()
+            <header>
+                <h1>@ViewData["Title"]</h1>
+            </header>
+            <article>
+                @RenderBody()
+            </article>
         </main>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

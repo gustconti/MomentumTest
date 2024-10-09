@@ -6,7 +6,7 @@ namespace MomentumTest.Components.Sidebar
     {
         public IViewComponentResult Invoke()
         {
-            return View();
+            return View("~/Views/Shared/Components/Sidebar/Footer.cshtml");
         }
     }
 }

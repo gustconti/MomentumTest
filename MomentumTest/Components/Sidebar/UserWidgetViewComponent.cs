@@ -10,7 +10,7 @@ namespace MomentumTest.Components.Sidebar
         public IViewComponentResult Invoke()
         {
             var user = MockUserData.GetUserData();
-            return View(user);
+            return View("~/Views/Shared/Components/Sidebar/UserWidget.cshtml", user);
         }
     }
 }
