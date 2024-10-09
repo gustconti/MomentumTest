@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<MomentumTestContext>(options =>
+options.UseSqlite(builder.Configuration.GetConnectionString("MomentumTestContext")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,8 +31,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-builder.Services.AddDbContext<MomentumTestContext>(options =>
-options.UseSqlite(builder.Configuration.GetConnectionString("MomentumTest")));
 
 app.Run();

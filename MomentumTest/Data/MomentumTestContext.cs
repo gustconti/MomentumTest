@@ -7,13 +7,21 @@ using MomentumTest.Models;
 
 namespace MomentumTest.Data
 {
-    public class MomentumTestContext : DbContext
+    public class MomentumTestContext(DbContextOptions<MomentumTestContext> options) : DbContext(options)
     {
-        public MomentumTestContext (DbContextOptions<MomentumTestContext> options)
-            : base(options)
-        {
-        }
-
         public DbSet<MomentumTest.Models.Reservation> Reservation { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.MainGuest)
+                .WithMany(g => g.Reservations)
+                .HasForeignKey(r => r.MainGuestId);
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Status)
+                .WithMany(s => s.Reservations)
+                .HasForeignKey(r => r.StatusId);
+        }
     }
 }
