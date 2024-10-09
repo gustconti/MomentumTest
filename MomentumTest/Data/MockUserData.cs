@@ -2,16 +2,15 @@ namespace MomentumTest.Data
 {
     public static class MockUserData
     {
-        public static List<UserDTO> GetUserData()
+        public static UserDTO GetUserData()
         {
             return
-            [
-                new () { 
+                new()
+                {
                     Name = "Administrador",
                     Company = "SMN",
                     AvatarUrl = "/assets/circle-avatar.svg"
-                }
-            ];
+                };
         }
     }
 

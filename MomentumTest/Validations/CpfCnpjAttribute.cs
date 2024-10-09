@@ -10,7 +10,7 @@ namespace MomentumTest.Validations
     {
         public CpfCnpjAttribute() { }
 
-        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (value == null)
             {
