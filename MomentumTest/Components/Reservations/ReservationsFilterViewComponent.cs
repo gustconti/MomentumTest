@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MomentumTest.Data;
 using MomentumTest.Models;
 using MomentumTest.Models.ViewModels;
-using System;
 using System.Linq;
 
 namespace MomentumTest.Components.Reservations
@@ -24,4 +22,3 @@ namespace MomentumTest.Components.Reservations
         }
     }
 }
-

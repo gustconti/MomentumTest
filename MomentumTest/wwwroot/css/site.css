@@ -43,3 +43,31 @@ html {
 aside.site-sidebar .icon {
   width: 20px;
 }
+
+
+/* bootstrap overrides */
+
+.btn {
+  border-radius: 0;
+  padding: 6px 24px;
+}
+
+.btn-primary {
+  background-color: #748F68;
+  border-color: #748F68;
+}
+
+.btn-primary:hover {
+  background-color: #748F68cc;
+  border-color: #748F68cc;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #999;
+}
+
+.form-control {
+  border-radius: 0;
+}

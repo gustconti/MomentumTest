@@ -1,0 +1,13 @@
+.reservation-filters-container {
+    background-color: #fff;
+    box-shadow: 1px 1px 1px 1px #cecece50;
+}
+
+header {
+    border-bottom: 1px solid #cecece;
+}
+
+h2 {
+    color: #0f0f0f;
+    font-weight: 400;
+}

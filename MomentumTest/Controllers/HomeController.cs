@@ -24,9 +24,12 @@ public class HomeController(ILogger<HomeController> logger, MomentumTestContext 
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
     [HttpPost]
-    public IActionResult Filter(ReservationsFilterViewModel filter)
+    public IActionResult Filter(ReservationsFilterViewModel filter, int pageNumber = 1, int itemsPerPage = 8)
     {
-        var query = _context.Reservation.Include(r => r.Status).AsQueryable();
+        var query = _context.Reservation
+            .Include(r => r.Status)
+            .Include(r => r.MainGuest)
+            .AsQueryable();
 
         if (filter.ReservationId.HasValue && filter.ReservationId.Value > 0)
         {
@@ -53,8 +56,32 @@ public class HomeController(ILogger<HomeController> logger, MomentumTestContext 
             query = query.Where(r => r.MainGuest.Name != null && r.MainGuest.Name.Contains(filter.GuestName));
         }
 
-        var filteredReservations = query.ToList();
+        var isFilterApplied = filter.ReservationId.HasValue ||
+                          filter.StartDate.HasValue ||
+                          filter.EndDate.HasValue ||
+                          filter.StatusId > 0 ||
+                          !string.IsNullOrEmpty(filter.GuestName);
 
-        return PartialView("~/Views/Shared/Components/Reservations/ReservationsTable.cshtml", filteredReservations);
+        if (!isFilterApplied) {
+            query = _context.Reservation
+                .Include(r => r.Status)
+                .Include(r => r.MainGuest);
+        }
+        
+        int totalItems = query.Count();
+        int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+
+        if(pageNumber < 1) pageNumber = 1;
+        if(pageNumber > totalPages) pageNumber = totalPages;
+
+        var paginatedReservations = query
+            .Skip((pageNumber - 1) * itemsPerPage)
+            .Take(itemsPerPage)
+            .ToList();
+
+        ViewBag.TotalPages = totalPages;
+        ViewBag.CurrentPage = pageNumber;
+
+        return PartialView("~/Views/Shared/Components/Reservations/ReservationsTable.cshtml", paginatedReservations);
     }
 }
