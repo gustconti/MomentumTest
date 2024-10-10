@@ -9,19 +9,36 @@ main {
   background-color: #F7F7F7;
 }
 
-.page-header {
+#page-header {
   color: #fff;
   text-justify: center;
   background-color: #68805D;
   height: 60px;
+  margin-left: 300px;
+  transition: margin-left 0.3s ease;  
 }
 
-.page-header h1 {
+#page-header.shifted {
+  margin-left: 0; 
+}
+
+#page-header h1 {
   font-size: 1.3rem;
   font-weight: 400;
   text-transform: uppercase;
 }
 
-section.main-content {
-  max-width: 750px;
+.scroll-container {
+  padding-top: 80px;
+}
+
+#main-content {
+  max-width: 850px;
+  transition: margin-left 0.3s ease; 
+  margin-left: 300px; 
+}
+
+
+#main-content.shifted {
+  margin-left: 0; 
 }

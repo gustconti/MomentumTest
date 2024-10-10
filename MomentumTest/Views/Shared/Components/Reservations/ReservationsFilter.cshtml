@@ -1,12 +1,12 @@
 @using MomentumTest.Models.ViewModels
 @model ReservationsFilterViewModel
 
-<section class="reservation-filters-container p-4 pt-0">
+<section class="reservation-filters-container custom-card p-4 pt-0">
     <header class="px-2 pt-3 pb-2">
         <h2>RESERVAS</h2>
     </header>
     <form id="filter-form" class="pt-4">
-        <div class="d-flex">
+        <div class="d-flex flex-wrap flex-md-nowrap">
             <div class="mb-3 col-12 col-md-3 pe-md-2">
                 <label asp-for="ReservationId" class="form-label"></label>
                 <input asp-for="ReservationId" class="form-control" />
@@ -25,7 +25,7 @@
                 <label class="form-label">Período</label>                
                 <div class="input-group">
                     <input asp-for="StartDate" class="form-control date-picker" placeholder="Start Date" />
-                    <span class="input-group-text bg-light text-center" style="min-width: 50px;">Até</span>
+                    <span class="input-group-text bg-light text-center" style="min-width: 50px;">até</span>
                     <input asp-for="EndDate" class="form-control date-picker" placeholder="End Date" />
                 </div>
             </div>
@@ -58,8 +58,7 @@
                 url: '@Url.Action("Filter", "Home")',
                 data: data,
                 success: function (result) {
-                    console.log("RESULTS GC: ", result);
-                    $('#resultsContainer').html(result);
+                    $('#reservations-table-container').html(result);
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);

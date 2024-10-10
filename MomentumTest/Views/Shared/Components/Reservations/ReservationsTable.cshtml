@@ -1,62 +1,136 @@
 @model List<MomentumTest.Models.Reservation>
 
-<table class="table table-striped table-hover mt-4">
-    <thead>
-        <tr>
-            <th scope="col">Nº da reserva</th>
-            <th scope="col">Nome Hóspede</th>
-            <th scope="col">Período</th>
-            <th scope="col">Status</th>
-            <th scope="col">Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var reservation in Model)
+<section class="custom-card reservations-table">
+    <table class="table table-striped table-hover mt-4 mb-0">
+        <thead>
+            <tr>
+                <th scope="col">Nº da reserva</th>
+                <th scope="col">Nome Hóspede</th>
+                <th scope="col">Período</th>
+                <th scope="col">Status</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var reservation in Model)
+                {
+                    <tr>
+                        <td class="text-center">@reservation.Id</td>
+                        <td>@reservation.MainGuest.Name</td>
+                        <td>
+                            @reservation.StartDate.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) -
+                            @reservation.EndDate.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)
+                        </td>
+
+                        <td>
+                            @{
+                                var statusBadgeStyle = "";
+                                switch (reservation.Status.Name)
+                                {
+                                    case "Ativa":
+                                        statusBadgeStyle = "bg-info text-info";
+                                        break;
+                                    case "Finalizada":
+                                        statusBadgeStyle = "bg-light text-dark";
+                                        break;
+                                    case "Pendente":
+                                        statusBadgeStyle = "bg-warning text-dark";
+                                        break;
+                                    case "Cancelada":
+                                        statusBadgeStyle = "bg-danger";
+                                        break;
+                                    default:
+                                        statusBadgeStyle = "bg-secondary";
+                                        break;
+                                }
+                            }
+
+                            <span class="badge w-100 text-center @(statusBadgeStyle)">
+                                @reservation.Status.Name
+                            </span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-link p-0" data-bs-toggle="modal"
+                                data-bs-target="#detailsModal-@reservation.Id">
+                                <img src="/assets/magnifier.svg" alt="Details Icon" class="icon details"
+                                    style="margin-top:2px" />
+                            </button>
+
+                            <button type="button" class="btn btn-link p-0" data-bs-toggle="modal"
+                                data-bs-target="#editModal-@reservation.Id">
+                                <img src="/assets/pencil.svg" alt="Edit Icon" class="icon edit" style="scale:0.85" />
+                            </button>
+
+                            <button type="button" class="btn btn-link p-0" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal-@reservation.Id">
+                                <img src="/assets/trash.svg" alt="Delete Icon" class="icon delete" style="scale:0.85" />
+                            </button>
+                        </td>
+                    </tr>
+
+                    @await Html.PartialAsync("Components/Reservations/_ReservationDetailsModal", reservation)
+                    @await Html.PartialAsync("Components/Reservations/_ReservationEditModal", reservation)
+                    @await Html.PartialAsync("Components/Reservations/_ReservationDeleteModal", reservation)
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@reservation.Id</td>
-                    <td>@reservation.StatusId</td>
-                    <td>@reservation.StartDate.ToShortDateString() - @reservation.EndDate.ToShortDateString()</td>
-                    <td>@reservation.Status.Name</td>
-                    <td>
-                        <button 
-                            type="button" 
-                            class="btn btn-info btn-sm" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#detailsModal-@reservation.Id">
-                            Detalhes
-                        </button>
-
-                        <button 
-                            type="button" 
-                            class="btn btn-warning btn-sm" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editModal-@reservation.Id">
-                            Editar
-                        </button>
-
-                        <button 
-                            type="button" 
-                            class="btn btn-danger btn-sm" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#deleteModal-@reservation.Id">
-                            Deletar
-                        </button>
-                    </td>
+                    <td colspan="5" class="text-center">Nenhuma reserva encontrada.</td>
                 </tr>
-
-                @await Html.PartialAsync("_ReservationDetailsModal", reservation)
-                @await Html.PartialAsync("_ReservationEditModal", reservation)
-                @await Html.PartialAsync("_ReservationDeleteModal", reservation)
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5" class="text-center">Nenhuma reserva encontrada.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
+    <nav aria-label="Pagination Controls @(ViewBag.TotalPages > 1 ? "" : "d-none")">
+        <ul class="pagination justify-content-center">
+            @if (ViewBag.TotalPages > 1)
+            {
+                if (ViewBag.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" data-page="@((ViewBag.CurrentPage - 1))" class="prev">Anterior</a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="#" data-page="@i">@i</a>
+                    </li>
+                }
+
+                if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#" data-page="@((ViewBag.CurrentPage + 1))" class="next">Próxima</a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('.pagination').on('click', 'a', function (event) {
+            event.preventDefault();
+            var pageNumber = $(this).data('page');
+            let data = $('#filter-form').serialize();
+            data += '&pageNumber=' + pageNumber;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Filter", "Home")',
+                data: data,
+                success: function (result) {
+                    $('#reservations-table-container').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

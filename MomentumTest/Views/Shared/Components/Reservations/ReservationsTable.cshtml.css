@@ -1,0 +1,8 @@
+.icon.details {
+    margin-top: 3px
+}
+
+.icon.edit, 
+.icon.delete {
+    scale: 0.85
+}

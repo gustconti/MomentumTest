@@ -40,8 +40,13 @@ html {
   min-height: 100%;
 }
 
-aside.site-sidebar .icon {
+.icon {
   width: 20px;
+}
+
+.custom-card {
+  background-color: #fff;
+  box-shadow: 1px 1px 1px 1px #cecece50;
 }
 
 
@@ -70,4 +75,16 @@ aside.site-sidebar .icon {
 
 .form-control {
   border-radius: 0;
+}
+
+.bg-info {
+  background-color: #A6E7D8!important;
+}
+
+.bg-light {
+  background-color: #CDCDCD!important;
+}
+
+.text-info {
+  color: #006B39!important;
 }

@@ -1,10 +1,16 @@
-<aside class="site-sidebar">
-    <div class="logo-component p-4">
+<aside class="site-sidebar" id="sidebar">
+    <div class="logo-component p-4 d-block">
         <a href="/" class="logo-link">
-            <img src="/assets/logo.png" alt="SMN Logo"/>
+            <img src="/assets/logo.png" alt="SMN Logo" />
         </a>
     </div>
     @await Component.InvokeAsync("UserWidget")
     @await Component.InvokeAsync("Menu")
     @await Component.InvokeAsync("Footer")
+    <div class="menu-toggle-button" id="toggle-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="caret-icon">
+            <path
+                d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z" />
+        </svg>
+    </div>
 </aside>

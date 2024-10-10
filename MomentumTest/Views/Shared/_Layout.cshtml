@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,22 +11,26 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <div id="site-container">
 
         @await Component.InvokeAsync("Sidebar")
 
-        <main role="main" class="pb-3">
-            <header class="page-header d-flex align-items-center px-4">
+        <main role="main" class="overflow-hidden w-100">
+            <header id="page-header" class="d-flex align-items-center position-fixed w-100 px-4">
                 <h1>@ViewData["Title"]</h1>
             </header>
-            <section class="main-content p-4">
-                @RenderBody()
+            <section class="scroll-container overflow-auto w-100 h-100 px-4 pb-4">
+                <div id="main-content">
+                    @RenderBody()
+                </div>
             </section>
         </main>
-        
+
     </div>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
