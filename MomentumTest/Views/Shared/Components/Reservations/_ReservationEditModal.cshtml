@@ -1,0 +1,37 @@
+@model MomentumTest.Models.Reservation
+
+<div class="modal fade" id="editModal-@Model.Id" tabindex="-1" aria-labelledby="editModalLabel-@Model.Id" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel-@Model.Id">Editar Reserva @Model.Id</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Implement form fields to edit reservation details here -->
+                <form>
+                    <div class="mb-3">
+                        <label for="guestName-@Model.Id" class="form-label">Nome do Hóspede</label>
+                        <input type="text" class="form-control" id="guestName-@Model.Id" value="@Model.MainGuest?.Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate-@Model.Id" class="form-label">Data de Início</label>
+                        <input type="date" class="form-control" id="startDate-@Model.Id" value="@Model.StartDate.ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate-@Model.Id" class="form-label">Data de Término</label>
+                        <input type="date" class="form-control" id="endDate-@Model.Id" value="@Model.EndDate.ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="mb-3">
+                        <label for="status-@Model.Id" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status-@Model.Id" value="@Model.Status?.Name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

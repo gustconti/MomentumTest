@@ -2,7 +2,13 @@
     ViewData["Title"] = "Reservas";
 }
 
-<div>
-    @await Component.InvokeAsync("ReservationsFilter")
-    @await Component.InvokeAsync("ReservationsTable")
-</div>
+<article class="reservations-page">
+    <div id="filter-form-container">
+        @await Component.InvokeAsync("ReservationsFilter")
+    </div>
+
+    <div id="resultsContainer" class="px-4">
+        @await Component.InvokeAsync("ReservationsTable")
+    </div>
+</article>
+

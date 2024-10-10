@@ -1,0 +1,21 @@
+@model MomentumTest.Models.Reservation
+
+<div class="modal fade" id="detailsModal-@Model.Id" tabindex="-1" aria-labelledby="detailsModalLabel-@Model.Id" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel-@Model.Id">Detalhes da Reserva @Model.Id</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nome do Hóspede:</strong> @Model.MainGuest?.Name</p>
+                <p><strong>Período:</strong> @Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</p>
+                <p><strong>Status:</strong> @Model.Status?.Name</p>
+                <p><strong>Observações:</strong> @Model.Observations</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

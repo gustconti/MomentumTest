@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MomentumTest.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div id="site-container">
@@ -14,15 +16,15 @@
         @await Component.InvokeAsync("Sidebar")
 
         <main role="main" class="pb-3">
-            <header>
+            <header class="page-header d-flex align-items-center px-5">
                 <h1>@ViewData["Title"]</h1>
             </header>
-            @RenderBody()
+            <section class="main-content p-4">
+                @RenderBody()
+            </section>
         </main>
         
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

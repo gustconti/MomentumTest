@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace MomentumTest.Models.ViewModels
 {
-    public class ReservationsFilterModelDTO
+    public class ReservationsFilterViewModel
     {
         [Display(Name = "Número")]
         public int? ReservationId { get; set; }
@@ -14,5 +14,14 @@ namespace MomentumTest.Models.ViewModels
         [Display(Name = "Nome do Hóspede")]
         public string? GuestName { get; set; }
         public List<Status> Statuses { get; set; } = [];
+        public ReservationsFilterViewModel() { }
+        public ReservationsFilterViewModel(Reservation reservation)
+        {
+            ReservationId = reservation.Id;
+            StartDate = reservation.StartDate;
+            EndDate = reservation.EndDate;
+            StatusId = reservation.StatusId;
+            GuestName = reservation.MainGuest?.Name;
+        }
     }
 }

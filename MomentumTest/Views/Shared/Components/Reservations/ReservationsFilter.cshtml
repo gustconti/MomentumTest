@@ -1,69 +1,64 @@
 @using MomentumTest.Models.ViewModels
-@model ReservationsFilterModelDTO
+@model ReservationsFilterViewModel
 
-<form id="reservationFilterForm" method="post" asp-controller="ReservationsFilterViewComponent" asp-action="Filter">
-    <div class="form-group">
-        <label for="startDate">Start Date</label>
-        <input type="text" id="startDate" name="StartDate" class="form-control datepicker" 
-               value="@Model.StartDate?.ToString("dd-MM-yyyy")" />
+<form id="filter-form" class="px-4">
+    <div class="d-flex gap-2">
+        <div class="mb-3 col-2">
+            <label asp-for="ReservationId" class="form-label"></label>
+            <input asp-for="ReservationId" class="form-control" />
+        </div>
+        <div class="mb-3 col-4">
+            <label asp-for="StartDate" class="form-label"></label>
+            <input asp-for="StartDate" class="form-control date-picker" />
+        </div>
+        <div class="mb-3 col-4">
+            <label asp-for="EndDate" class="form-label"></label>
+            <input asp-for="EndDate" class="form-control date-picker" />
+        </div>
     </div>
-    <div class="form-group">
-        <label for="endDate">End Date</label>
-        <input type="text" id="endDate" name="EndDate" class="form-control datepicker" 
-               value="@Model.EndDate?.ToString("dd-MM-yyyy")" />
-    </div>
-    <div class="form-group">
-        <label for="status">Status</label>
-        <select id="status" name="StatusId" class="form-control">
-            <option value="0">Select Status</option>
-            @foreach (var status in Model.Statuses) // Assuming Model.Statuses is a list of status options
+    <div class="mb-3">
+        <label asp-for="StatusId" class="form-label"></label>
+        <select asp-for="StatusId" class="form-select">
+            <option value="">Select Status</option>
+            @foreach (var status in Model.Statuses)
             {
                 <option value="@status.Id">@status.Name</option>
             }
         </select>
     </div>
-    <div class="form-group">
-        <label for="guestName">Guest Name</label>
-        <input type="text" id="guestName" name="GuestName" class="form-control" 
-               placeholder="Enter guest name" />
+    <div class="mb-3">
+        <label asp-for="GuestName" class="form-label"></label>
+        <input asp-for="GuestName" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <button 
+        type="button" 
+        class="btn btn-info btn-sm" 
+        data-bs-toggle="modal" 
+        data-bs-target="#createModal">Novo</button>
+    <button 
+        type="submit" 
+        class="btn btn-primary submit-btn">Pesquisar</button>
 </form>
 
-<div id="reservationsTableContainer">
-    @await Component.InvokeAsync("ReservationsTable", new { reservations = new List<Reservation>() })
-</div>
+@await Html.PartialAsync("_ReservationCreateModal")
 
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    
-    <script>
-        $(document).ready(function () {
-            // Initialize datepickers
-            $(".datepicker").datepicker({
-                dateFormat: "yy-mm-dd", // Format for the date input
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true
-            });
-
-            // Handle form submission via AJAX
-            $('#reservationFilterForm').on('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Filter", "ReservationsFilterViewComponent")', // Adjust if needed
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        $('#reservationsTableContainer').html(result); // Update the table with the result
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("An error occurred: " + error);
-                    }
-                });
+<script>
+    $(document).ready(function () {
+        $('#filter-form').submit(function (event) {
+            event.preventDefault();
+            let data = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Filter", "Home")',
+                data: data,
+                success: function (result) {
+                    console.log("RESULTS GC: ", result);
+                    $('#resultsContainer').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
             });
         });
-    </script>
-}
+    });
+</script>

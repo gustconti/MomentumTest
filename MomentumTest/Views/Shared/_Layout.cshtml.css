@@ -7,3 +7,16 @@
 main {
   flex: 1;
 }
+
+.page-header {
+  color: #fff;
+  text-justify: center;
+  background-color: #68805D;
+  height: 60px;
+}
+
+.page-header h1 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}

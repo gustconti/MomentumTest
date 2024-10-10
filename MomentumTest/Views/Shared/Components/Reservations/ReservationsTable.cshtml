@@ -1,50 +1,62 @@
-@using MomentumTest.Models.ViewModels
-@model ReservationsFilterModelDTO
+@model List<MomentumTest.Models.Reservation>
 
-<form id="reservationFilterForm" method="post" asp-controller="Home" asp-action="Filter">
-    <div>
-        <label for="startDate">Start Date</label>
-        <input type="date" id="startDate" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
-    </div>
-    <div>
-        <label for="endDate">End Date</label>
-        <input type="date" id="endDate" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
-    </div>
-    <div>
-        <label for="status">Status</label>
-        <select id="status" name="StatusId">
-            <option value="0">Select Status</option>
-            @foreach (var status in Model.Statuses) // Make sure to populate statuses in the model
+<table class="table table-striped table-hover mt-4">
+    <thead>
+        <tr>
+            <th scope="col">Nº da reserva</th>
+            <th scope="col">Nome Hóspede</th>
+            <th scope="col">Período</th>
+            <th scope="col">Status</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var reservation in Model)
             {
-                <option value="@status.Id">@status.Name</option>
+                <tr>
+                    <td>@reservation.Id</td>
+                    <td>@reservation.StatusId</td>
+                    <td>@reservation.StartDate.ToShortDateString() - @reservation.EndDate.ToShortDateString()</td>
+                    <td>@reservation.Status.Name</td>
+                    <td>
+                        <button 
+                            type="button" 
+                            class="btn btn-info btn-sm" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#detailsModal-@reservation.Id">
+                            Detalhes
+                        </button>
+
+                        <button 
+                            type="button" 
+                            class="btn btn-warning btn-sm" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#editModal-@reservation.Id">
+                            Editar
+                        </button>
+
+                        <button 
+                            type="button" 
+                            class="btn btn-danger btn-sm" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#deleteModal-@reservation.Id">
+                            Deletar
+                        </button>
+                    </td>
+                </tr>
+
+                @await Html.PartialAsync("_ReservationDetailsModal", reservation)
+                @await Html.PartialAsync("_ReservationEditModal", reservation)
+                @await Html.PartialAsync("_ReservationDeleteModal", reservation)
             }
-        </select>
-    </div>
-    <div>
-        <label for="guestName">Guest Name</label>
-        <input type="text" id="guestName" name="GuestName" placeholder="Enter guest name" />
-    </div>
-    <button type="submit">Search</button>
-</form>
-
-<div id="reservationsTableContainer">
-    @await Component.InvokeAsync("ReservationsTable", new { reservations = new List<Reservation>() })
-</div>
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#reservationFilterForm').on('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Filter", "ReservationsFilter")', // Adjust if needed
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        $('#reservationsTableContainer').html(result); // Update table
-                    }
-                });
-            });
-        });
-    </script>
-}
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">Nenhuma reserva encontrada.</td>
+            </tr>
+        }
+    </tbody>
+</table>
