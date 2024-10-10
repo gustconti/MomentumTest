@@ -34,8 +34,8 @@ $(document).ready(function () {
 
     handleResponsiveSidebar();
 
-    $(window).resize(handleResponsiveSidebar);
-    
+    $(window).resize(debounce(handleResponsiveSidebar, 200));
+        
     $('#toggle-button').on('click', function () {
         toggleMenu();
     });

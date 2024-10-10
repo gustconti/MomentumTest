@@ -1,6 +1,7 @@
 @model MomentumTest.Models.Reservation
 
-<div class="modal fade" id="deleteModal-@Model.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@Model.Id" aria-hidden="true">
+<div class="modal fade" id="deleteModal-@Model.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@Model.Id"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,12 +9,39 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Tem certeza que deseja deletar a reserva <strong>@Model.Id</strong> de <strong>@Model.MainGuest?.Name</strong>?
+                Tem certeza que deseja deletar a reserva <strong>@Model.Id</strong> de
+                <strong>@Model.MainGuest?.Name</strong>?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger">Deletar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                </button>
+                <button type="button" class="btn btn-danger delete-reservation" data-id="@Model.Id">Deletar</button>
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    $('.delete-reservation').on('click', function () {
+        var reservationId = $(this).data('id');
+        $.ajax({
+            url: '/Home/DeleteReservation',
+            type: 'POST',
+            data: { id: reservationId },
+            success: function (response) {
+                if (response.success) {
+                    location.reload();
+                    alert('Reservation deleted successfully.');
+                } else {
+                    alert('Failed to delete reservation.');
+                }
+            },
+            error: function () {
+                alert('An error occurred while trying to delete the reservation.');
+            }
+        });
+    });
+});
+</script>

@@ -15,4 +15,13 @@ public class Reservation
     public required int MainGuestId { get; set; }
     public required Guest MainGuest { get; set; }
     public List<string>? AdditionalGuests { get; set; } = [];
+    public Reservation(int statusId, Status status, int mainGuestId, Guest mainGuest)
+    {
+        StatusId = statusId;
+        Status = status;
+        MainGuestId = mainGuestId;
+        MainGuest = mainGuest;
+    }
+
+    public Reservation() { }
 }

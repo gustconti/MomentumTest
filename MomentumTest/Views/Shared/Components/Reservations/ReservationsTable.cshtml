@@ -1,3 +1,4 @@
+@using MomentumTest.Models.ViewModels
 @model List<MomentumTest.Models.Reservation>
 
 <section class="custom-card reservations-table">
@@ -27,13 +28,13 @@
                         <td>
                             @{
                                 var statusBadgeStyle = "";
-                                switch (reservation.Status.Name)
+                                switch (reservation.Status?.Name)
                                 {
                                     case "Ativa":
                                         statusBadgeStyle = "bg-info text-info";
                                         break;
                                     case "Finalizada":
-                                        statusBadgeStyle = "bg-light text-dark";
+                                            statusBadgeStyle = "bg-light text-dark";
                                         break;
                                     case "Pendente":
                                         statusBadgeStyle = "bg-warning text-dark";
@@ -48,7 +49,7 @@
                             }
 
                             <span class="badge w-100 text-center @(statusBadgeStyle)">
-                                @reservation.Status.Name
+                                @reservation.Status?.Name
                             </span>
                         </td>
                         <td>
@@ -69,10 +70,10 @@
                             </button>
                         </td>
                     </tr>
+                    
+                    @await Component.InvokeAsync("ReservationsDetailsModal", reservation)
+                    @await Component.InvokeAsync("ReservationsDeleteModal", reservation)
 
-                    @await Html.PartialAsync("Components/Reservations/_ReservationDetailsModal", reservation)
-                    @await Html.PartialAsync("Components/Reservations/_ReservationEditModal", reservation)
-                    @await Html.PartialAsync("Components/Reservations/_ReservationDeleteModal", reservation)
                 }
             }
             else
@@ -125,6 +126,7 @@
                 url: '@Url.Action("Filter", "Home")',
                 data: data,
                 success: function (result) {
+                    console.log("GC: ", data)
                     $('#reservations-table-container').html(result);
                 },
                 error: function (xhr, status, error) {
