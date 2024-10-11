@@ -1,74 +1,93 @@
+@using Microsoft.Extensions.Options
 @model MomentumTest.Models.Reservation
+@{
+    List<Status> statuses = ViewBag.Statuses;
+}
 
 <div class="modal fade" id="editModal-@Model.Id" tabindex="-1" aria-labelledby="editModalLabel-@Model.Id"
-    aria-hidden="true">
+aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel-@Model.Id">Editar Reserva @Model.Id</h5>
+                <h5 class="modal-title" id="editModalLabel-@Model.Id">Editar Reserva @Model.Id
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm-@Model?.Id">
-                    <input type="hidden" name="Id" value="@Model.Id" />
+                <form id="editForm-@Model.Id">
+                    <input type="hidden" id="IdField" name="Id" value="@Model.Id" />
                     <div class="mb-3">
-                        <label for="guestName-@Model.Id" class="form-label">Nome do Hóspede</label>
-                        <input type="text" class="form-control" id="guestName-@Model.Id" value="@Model.MainGuest.Name"
-                            disabled>
+                        <label for="guestName-@Model.Id" class="form-label" >Nome do Hóspede</label>
+                        <input type="text" class="form-control" name="GuestName" id="guestName-@Model.Id" value="@Model.MainGuest.Name" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="startDate-@Model.Id" class="form-label">Data de Início</label>
                         <input type="date" class="form-control" name="StartDate" id="startDate-@Model.Id"
-                            value="@Model.StartDate.ToString("yyyy-MM-dd")">
+                        value="@Model.StartDate.ToString("yyyy-MM-dd")">
                     </div>
                     <div class="mb-3">
                         <label for="endDate-@Model.Id" class="form-label">Data de Término</label>
                         <input type="date" class="form-control" name="EndDate" id="endDate-@Model.Id"
-                            value="@Model.EndDate.ToString("yyyy-MM-dd")">
+                        value="@Model.EndDate.ToString("yyyy-MM-dd")">
                     </div>
                     <div class="mb-3">
                         <label for="status-@Model.Id" class="form-label">Status</label>
                         <select class="form-select" name="StatusId" id="status-@Model.Id">
-                            @foreach (var status in ViewBag.Statuses)
-                            {
-                                <!option value="@status.Id" @(status.Id == Model.Status.Id ? "selected" : "")>@status.Name
-                                </!option>
+                            @{
+                                var optionsBuilder = new System.Text.StringBuilder();
+                                foreach (var status in statuses)
+                                {
+                                    optionsBuilder.Append($"<option value=\"{status.Id}\" {(status.Id == Model.StatusId ? "selected" : "")}>{status.Name}</option>");
+                                }
                             }
+                            @Html.Raw(optionsBuilder.ToString())
                         </select>
                     </div>
                 </form>
+                <span class="d-none badge-success success-message"></span>
+                <span class="d-none badge-danger error-message"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary save-reservation" data-id="@Model?.Id">Salvar</button>
+                <button type="button" class="btn btn-primary save-reservation" data-id="@Model.Id">Salvar</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.save-reservation').on('click', function () {
-            var reservationId = $(this).data('id');
-            var form = $('#editForm-' + reservationId);
-            var formData = form.serialize();
-
-            $.ajax({
-                url: '/Home/UpdateReservation',
-                type: 'POST',
-                data: formData,
-                success: function (response) {
-                    if (response.success) {
-                        location.reload();
-                        alert('Reserva editada com sucesso.');
-                    } else {
-                        alert('Falha ao editar a reserva: ' + response.errors);
-                    }
-                },
-                error: function () {
-                    alert('An error occurred while trying to update the ');
+$(document).ready(function () {
+    $(document).off('click', '.save-reservation');
+    $(document).on('click', '.save-reservation', function () {
+        let reservationId = $(this).data('id');
+        let modal = $('#editModal-' + reservationId);
+        var formData = {
+            Id: modal.find('input[name="Id"]').val(),
+            StartDate: modal.find('input[name="StartDate"]').val(),
+            EndDate: modal.find('input[name="EndDate"]').val(),
+            StatusId: modal.find('select[name="StatusId"]').val()
+        };
+        console.log("Form Data Object: ", formData);        
+        $.ajax({
+            url: '/Home/UpdateReservation',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                if (response.success) {
+                    console.log('Reserva editada com sucesso.');
+                } else {
+                    response.errors.forEach((error) => console.log(error));
+                    modal.find('span.error-message').text('Erro ao editar a reserva.').addClass('my-2').removeClass('d-done');
                 }
-            });
+            },
+            error: function () {
+                modal.find('span.error-message').text('Erro ao editar a reserva.').addClass('my-2').removeClass('d-done');
+            },
+            complete: function() {
+                location.reload();
+            }
         });
     });
+});
 </script>

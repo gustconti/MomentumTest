@@ -11,7 +11,7 @@ namespace MomentumTest.Components.Reservations
 
         public IViewComponentResult Invoke(Reservation reservation)
         {
-            return View("~/Views/Shared/Components/Reservations/_ReservationEditModal.cshtml", reservation);
+            return View("~/Views/Shared/Components/Reservations/_ReservationDeleteModal.cshtml", reservation);
         }
     }
 }

@@ -1,5 +1,8 @@
 @using MomentumTest.Models.ViewModels
 @model List<MomentumTest.Models.Reservation>
+@{
+ List<Status> statuses = ViewBag.Statuses;
+}
 
 <section class="custom-card reservations-table">
     <table class="table table-striped table-hover mt-4 mb-0">
@@ -72,8 +75,8 @@
                     </tr>
                     
                     @await Component.InvokeAsync("ReservationsDetailsModal", reservation)
+                    @await Component.InvokeAsync("ReservationsEditModal", reservation)
                     @await Component.InvokeAsync("ReservationsDeleteModal", reservation)
-
                 }
             }
             else
@@ -84,55 +87,77 @@
             }
         </tbody>
     </table>
-
-    <nav aria-label="Pagination Controls @(ViewBag.TotalPages > 1 ? "" : "d-none")">
-        <ul class="pagination justify-content-center">
-            @if (ViewBag.TotalPages > 1)
-            {
-                if (ViewBag.CurrentPage > 1)
+    <menu aria-label="Pagination Controls" class="d-flex align-items-center justify-content-between">
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="d-flex align-items-center p-3">
+                <select id="items-per-page" class="items-per-page-select form-select" aria-label="Itens por página">
+                    <!option value="5" @(ViewBag.ItemsPerPage == 5 ? "selected" : "")>5</!option>
+                    <!option value="8" @(ViewBag.ItemsPerPage == 8 ? "selected" : "")>8</!option>
+                    <!option value="15" @(ViewBag.ItemsPerPage == 15 ? "selected" : "")>15</!option>
+                    <!option value="30" @(ViewBag.ItemsPerPage == 30 ? "selected" : "")>30</!option>
+                </select>
+                <label for="items-per-page-select" class="ms-2 text-nowrap">Por página:</label>   
+            </div>
+        </div>
+        <nav class="px-3">
+            <ul class="pagination py-4 justify-content-center @(ViewBag.TotalPages > 1 ? "" : "d-none")">
+                @if (ViewBag.TotalPages > 1)
                 {
-                    <li class="page-item">
-                        <a class="page-link" href="#" data-page="@((ViewBag.CurrentPage - 1))" class="prev">Anterior</a>
-                    </li>
-                }
+                    if (ViewBag.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="#" data-page="@((ViewBag.CurrentPage - 1))" class="prev">Anterior</a>
+                        </li>
+                    }
 
-                @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                {
-                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                        <a class="page-link" href="#" data-page="@i">@i</a>
-                    </li>
-                }
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="#" data-page="@i">@i</a>
+                        </li>
+                    }
 
-                if (ViewBag.CurrentPage < ViewBag.TotalPages)
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="#" data-page="@((ViewBag.CurrentPage + 1))" class="next">Próxima</a>
-                    </li>
+                    if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="#" data-page="@((ViewBag.CurrentPage + 1))" class="next">Próxima</a>
+                        </li>
+                    }
                 }
-            }
-        </ul>
-    </nav>
+            </ul>
+        </nav>
+    </menu>
 </section>
 
 <script>
-    $(document).ready(function () {
-        $('.pagination').on('click', 'a', function (event) {
-            event.preventDefault();
-            var pageNumber = $(this).data('page');
-            let data = $('#filter-form').serialize();
-            data += '&pageNumber=' + pageNumber;
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("Filter", "Home")',
-                data: data,
-                success: function (result) {
-                    console.log("GC: ", data)
-                    $('#reservations-table-container').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+$(document).ready(function () {
+    $('.pagination').on('click', 'a', function (event) {
+        event.preventDefault();
+        var pageNumber = $(this).data('page');
+        let data = $('#filter-form').serialize();
+
+        // Get the selected items per page
+        var itemsPerPage = $('#items-per-page').val();
+        
+        // Add items per page to the data string
+        data += '&pageNumber=' + pageNumber + '&itemsPerPage=' + itemsPerPage;
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Filter", "Home")',
+            data: data,
+            success: function (result) {
+                $('#reservations-table-container').html(result);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
         });
     });
+
+    // Optional: Handle items per page change to reset to the first page
+    $('#items-per-page').change(function () {
+        $('.pagination a[data-page="1"]').click(); // Simulate clicking the first page link
+    });
+});
 </script>

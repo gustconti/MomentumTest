@@ -5,16 +5,24 @@ using MomentumTest.Models.ViewModels;
 
 namespace MomentumTest.Components.Reservations
 {
-    public class ReservationsEditModalViewComponent(MomentumTestContext context) : ViewComponent
+    public class ReservationsEditModalViewComponent : ViewComponent
     {
-        private readonly MomentumTestContext _context = context;
+        private readonly MomentumTestContext _context;
 
-        public IViewComponentResult Invoke(Reservation reservation, List<Status> statuses)
+        public ReservationsEditModalViewComponent(MomentumTestContext context)
         {
-            statuses = [.. _context.Status];
-            var viewModel = new EditReservationViewModel(reservation, statuses);
-         
-            return View("~/Views/Shared/Components/Reservations/_ReservationEditModal.cshtml", viewModel);
+            _context = context;
+        }
+
+        public IViewComponentResult Invoke(Reservation reservation)
+        {
+            if (reservation == null)
+            {
+                return Content(""); // Handle null case gracefully
+            }
+
+            ViewBag.Statuses = _context.Status.ToList();
+            return View("~/Views/Shared/Components/Reservations/_ReservationEditModal.cshtml", reservation);
         }
     }
 }

@@ -30,6 +30,10 @@ namespace MomentumTest.Models.ViewModels
         public string? Observations { get; set; }
         public Status? Status { get; set; }
         public List<Status> Statuses { get; set; } = [];
+        public CreateReservationViewModel() { }
+        public CreateReservationViewModel(List<Status> statuses) {
+            Statuses = statuses;
+        }
         public CreateReservationViewModel(Reservation reservation, List<Status> statuses)
         {
             ReservationId = reservation.Id;

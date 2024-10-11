@@ -11,8 +11,17 @@ namespace MomentumTest.Components.Reservations
 
         public IViewComponentResult Invoke(Reservation reservation)
         {
+
+            CreateReservationViewModel viewModel = new();
             var statuses = _context.Status.ToList();
-            var viewModel = new CreateReservationViewModel(reservation, statuses) {};
+            if (reservation is not null)
+            {
+                viewModel = new CreateReservationViewModel(reservation, statuses) { };
+            }
+            else
+            {
+                viewModel = new CreateReservationViewModel(statuses);
+            }
             return View("~/Views/Shared/Components/Reservations/_ReservationCreateModal.cshtml", viewModel);
         }
     }

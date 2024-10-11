@@ -30,7 +30,6 @@ public class HomeController(ILogger<HomeController> logger, MomentumTestContext 
         var query = _context.Reservation
             .Include(r => r.Status)
             .Include(r => r.MainGuest)
-            .Include(r => r.Observations)
             .AsQueryable();
 
         if (filter.ReservationId.HasValue && filter.ReservationId.Value > 0)
@@ -82,6 +81,7 @@ public class HomeController(ILogger<HomeController> logger, MomentumTestContext 
             .Take(itemsPerPage)
             .ToList();
 
+        ViewBag.ItemsPerPage = itemsPerPage;
         ViewBag.TotalPages = totalPages;
         ViewBag.CurrentPage = pageNumber;
         ViewBag.Statuses = _context.Status.ToList();
@@ -158,24 +158,24 @@ public class HomeController(ILogger<HomeController> logger, MomentumTestContext 
         _context.Reservation.Add(reservation);
         _context.SaveChanges();
 
-        return Ok(reservation);
+        return Ok();
     }
 
     [HttpPost]
-    public IActionResult UpdateReservation(Reservation reservation)
+    public IActionResult UpdateReservation([FromBody]EditReservationViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
-            var existingReservation = _context.Reservation.Find(reservation.Id);
+            var existingReservation = _context.Reservation.Find(viewModel.Id);
             if (existingReservation == null)
             {
                 return NotFound();
             }
 
-            existingReservation.StartDate = reservation.StartDate;
-            existingReservation.EndDate = reservation.EndDate;
-            existingReservation.Observations = reservation.Observations;
-            existingReservation.StatusId = reservation.StatusId;
+            existingReservation.StartDate = viewModel.StartDate ?? existingReservation.StartDate;
+            existingReservation.EndDate = viewModel.EndDate ?? existingReservation.EndDate;
+            existingReservation.Observations = viewModel.Observations;
+            existingReservation.StatusId = viewModel.StatusId ?? existingReservation.StatusId;
 
             _context.SaveChanges();
 

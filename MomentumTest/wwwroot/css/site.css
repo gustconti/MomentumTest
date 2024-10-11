@@ -88,3 +88,16 @@ html {
 .text-info {
   color: #006B39!important;
 }
+
+.page-link {
+  color: #748F68;
+}
+
+.page-link:hover {
+  color: #5c7252;
+}
+
+.page-item.active .page-link {
+  background-color: #748F68;
+  border-color: #748F68;
+}
